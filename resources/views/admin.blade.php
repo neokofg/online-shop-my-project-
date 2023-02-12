@@ -2,6 +2,7 @@
 <html lang="en">
 <x-head></x-head>
 <body>
+<x-navbar></x-navbar>
     Ты в админке!
     <a href="{{route('index')}}"><button>Назад</button></a>
     <form action="{{route('product.newType')}}" method="POST" enctype="multipart/form-data">

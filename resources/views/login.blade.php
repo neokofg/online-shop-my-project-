@@ -2,6 +2,7 @@
 <html lang="en">
 <x-head></x-head>
 <body>
+<x-navbar></x-navbar>
     <form action="{{route('auth.loginUser')}}" method="POST">
         @csrf
         <input type="text" name="email" placeholder="Email"><br>

@@ -38,6 +38,14 @@ class GetController extends Controller
     protected function GetProduct($id,$product_id){
         //commentaries
         $comments = Comment::where('product_id',$product_id)->orderBy('created_at','DESC')->get();
+        $commentStars = Comment::where('product_id',$product_id)->get('stars');
+        $midAriphStar = 0;
+        $a = 0;
+        foreach($commentStars as $commentStar){
+            $midAriphStar = $midAriphStar + intval($commentStar->stars);
+            $a++;
+        }
+        $midAriphStar = $midAriphStar/$a;
         //product
         $product = Product::where('id', $product_id)->get();
         foreach($product as $productItem){
@@ -49,9 +57,9 @@ class GetController extends Controller
             $cartIds = $cartDecoded['ids'];
             $favsIds = $favsDecoded['ids'];
             $i = 0;
-            return view('product',compact(['product','cartIds','i','favsIds','decodedChars','comments']));
+            return view('product',compact(['product','cartIds','i','favsIds','decodedChars','comments','midAriphStar']));
         }
-        return view('product',compact(['product','decodedChars','comments']));
+        return view('product',compact(['product','decodedChars','comments','midAriphStar']));
     }
     protected function GetCart(){
         $userCart = DB::table('users')->where('id', '=', Auth::user()->id)->get('cart');

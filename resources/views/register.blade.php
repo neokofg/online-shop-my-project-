@@ -2,6 +2,7 @@
 <html lang="en">
 <x-head></x-head>
 <body>
+<x-navbar></x-navbar>
     <form action="{{route('auth.registerNewUser')}}" method="POST">
         @csrf
         <input type="text" name="name" placeholder="Имя"><br>

@@ -2,10 +2,12 @@
 <html lang="en">
 <x-head></x-head>
 <body>
+<x-navbar></x-navbar>
     @foreach($product as $productItem)
         <h2>{{$productItem->name}}</h2>
         <img width="200px" src="/images/{{$productItem->image}}" alt="{{$productItem->name}}">
         <p>{{$productItem->price}} руб.</p>
+        <h4>{{$midAriphStar}} Звезд!</h4>
         <p>{{$productItem->description}}</p>
         <p>Осталось {{$productItem->available}} шт!</p>
         <ul>
