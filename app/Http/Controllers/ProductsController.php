@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -68,7 +69,9 @@ class ProductsController extends Controller
         DB::table('products')->insert($data);
         return to_route('admin');
     }
+
     //Следующие 4 функции -> Действия с корзиной и фаворитами
+
     protected function addToCart(Request $request){
         $validateFields = $request->validate([
             'id' => 'required'
@@ -162,5 +165,36 @@ class ProductsController extends Controller
             DB::table('users')->where('id', '=', Auth::user()->id)->update($data);
             return back();
         }
+    }
+    protected function newComment(Request $request){
+        $comment = Comment::get();
+        foreach($comment as $commentItem){
+            if($commentItem->user_id == Auth::user()->id){
+                return back();
+            }
+        }
+        $validateFields = $request->validate([
+            'comment' => 'required',
+            'image' => 'required',
+            'stars' => 'required|min:1|max:5',
+            'product_id' => 'required'
+        ]);
+        $comment = $request->input('comment');
+        $stars = $request->input('stars');
+        $product_id = $request->input('product_id');
+        $file = $request->file('image');
+        $filename= date('YmdHi').$file->hashName();
+        $file-> move(public_path('images'), $filename);
+        $data = array(
+            'comment' => $comment,
+            'image' => $filename,
+            'stars' => $stars,
+            'product_id' => $product_id,
+            'user_id' => Auth::user()->id,
+            "created_at" =>  date('Y-m-d H:i:s'),
+            "updated_at" => date('Y-m-d H:i:s')
+        );
+        DB::table('comments')->insert($data);
+        return back();
     }
 }

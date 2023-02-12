@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -33,7 +36,10 @@ class GetController extends Controller
         return view('type', compact(['products','type_id']));
     }
     protected function GetProduct($id,$product_id){
-        $product = DB::table('products')->where('id','=',$product_id)->get();
+        //commentaries
+        $comments = Comment::where('product_id',$product_id)->orderBy('created_at','DESC')->get();
+        //product
+        $product = Product::where('id', $product_id)->get();
         foreach($product as $productItem){
             $decodedChars = json_decode($productItem->chars, true);
         }
@@ -43,9 +49,9 @@ class GetController extends Controller
             $cartIds = $cartDecoded['ids'];
             $favsIds = $favsDecoded['ids'];
             $i = 0;
-            return view('product',compact(['product','cartIds','i','favsIds','decodedChars']));
+            return view('product',compact(['product','cartIds','i','favsIds','decodedChars','comments']));
         }
-        return view('product',compact(['product','decodedChars']));
+        return view('product',compact(['product','decodedChars','comments']));
     }
     protected function GetCart(){
         $userCart = DB::table('users')->where('id', '=', Auth::user()->id)->get('cart');

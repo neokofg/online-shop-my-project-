@@ -33,6 +33,8 @@ Route::name('product.')->middleware('AdminCheck')->group(function(){
     Route::post('/newProduct', [\App\Http\Controllers\ProductsController::class, 'newProduct'])->name('newProduct');
 });
 
+Route::post('/newComment',[\App\Http\Controllers\ProductsController::class, 'newComment'])->name('newComment');
+
 Route::name('cart.')->middleware('isAuth')->group(function(){
     Route::get('/addToCart', [\App\Http\Controllers\ProductsController::class, 'addToCart'])->name('addToCart');
     Route::get('/deleteFromCart/{id}', [\App\Http\Controllers\ProductsController::class, 'deleteFromCart'])->name('deleteFromCart');
