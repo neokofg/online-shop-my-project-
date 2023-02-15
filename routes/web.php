@@ -20,7 +20,7 @@ Route::get('/admin', [\App\Http\Controllers\GetController::class, 'GetAdmin'])->
 Route::get('/type/{id}', [\App\Http\Controllers\GetController::class, 'GetType'])->name('typePage');
 Route::get('/type/{id}/{product_id}', [\App\Http\Controllers\GetController::class, 'GetProduct'])->name('productPage');
 
-Route::view('/profile', 'profile')->middleware('isAuth')->name('profile');
+Route::get('/profile', [\App\Http\Controllers\GetController::class,'GetProfile'])->middleware('isAuth')->name('profile');
 
 Route::name('auth.')->group(function(){
     Route::post('/registerNewUser', [\App\Http\Controllers\AuthController::class,'registerNewUser'])->name('registerNewUser');
@@ -33,7 +33,7 @@ Route::name('product.')->middleware('AdminCheck')->group(function(){
     Route::post('/newProduct', [\App\Http\Controllers\ProductsController::class, 'newProduct'])->name('newProduct');
 });
 
-Route::post('/newComment',[\App\Http\Controllers\ProductsController::class, 'newComment'])->name('newComment');
+Route::post('/newComment',[\App\Http\Controllers\ProductsController::class, 'newComment'])->middleware('isAuth')->name('newComment');
 
 Route::name('cart.')->middleware('isAuth')->group(function(){
     Route::get('/addToCart', [\App\Http\Controllers\ProductsController::class, 'addToCart'])->name('addToCart');
@@ -44,4 +44,8 @@ Route::name('cart.')->middleware('isAuth')->group(function(){
 
     Route::get('/cart',[\App\Http\Controllers\GetController::class, 'GetCart'])->name('GetCart');
     Route::get('/favs',[\App\Http\Controllers\GetController::class, 'GetFavs'])->name('GetFavs');
+});
+Route::name('orders.')->middleware('isAuth')->group(function(){
+    Route::get('/pageOrder/{id}', [\App\Http\Controllers\OrdersController::class, 'pageOrder'])->name('pageOrder');
+    Route::get('/newOrder/{id}', [\App\Http\Controllers\OrdersController::class, 'newOrder'])->name('newOrder');
 });

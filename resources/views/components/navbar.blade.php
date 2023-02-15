@@ -1,5 +1,9 @@
 @if(!Auth::check())
-    <a href="{{route('login')}}"><button>Войти/Регистрация</button></a>
+    @if(!Request::is('login'))
+        @if(!Request::is('register'))
+        <a href="{{route('login')}}"><button>Войти/Регистрация</button></a>
+        @endif
+    @endif
 @else
     @if(Auth::user()->role == '1')
         <a href="{{route('admin')}}"><button>Админ</button></a>

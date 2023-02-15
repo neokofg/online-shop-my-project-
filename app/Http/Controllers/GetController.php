@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -45,7 +46,11 @@ class GetController extends Controller
             $midAriphStar = $midAriphStar + intval($commentStar->stars);
             $a++;
         }
-        $midAriphStar = $midAriphStar/$a;
+        if($midAriphStar == 0){
+            $midAriphStar = 0;
+        }else{
+            $midAriphStar = $midAriphStar/$a;
+        }
         //product
         $product = Product::where('id', $product_id)->get();
         foreach($product as $productItem){
@@ -76,5 +81,9 @@ class GetController extends Controller
             $products = DB::table('products')->whereIn('id',$favsDecoded['ids'])->get();
         }
         return view('favs',compact(['products']));
+    }
+    protected function GetProfile(){
+        $orders = Order::where('user_id',Auth::user()->id)->get();
+        return view('profile',compact(['orders']));
     }
 }
