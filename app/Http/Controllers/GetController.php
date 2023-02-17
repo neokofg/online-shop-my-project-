@@ -15,16 +15,7 @@ class GetController extends Controller
 {
     protected function GetIndex(Request $request){
         $types = DB::table('types')->get();
-        if($request->input('search') !== null){
-            $validateFields = $request->validate([
-                'search' => 'required'
-            ]);
-            $search = $request->input('search');
-            $result = DB::table('products')->where('name','ILIKE',"%{$search}%")->get();
-            return view('index',compact(['types','result']));
-        }else{
-            return view('index', compact(['types']));
-        }
+        return view('index', compact(['types']));
     }
     protected function GetAdmin(){
         $types = DB::table('types')->get();
@@ -83,7 +74,17 @@ class GetController extends Controller
         return view('favs',compact(['products']));
     }
     protected function GetProfile(){
-        $orders = Order::where('user_id',Auth::user()->id)->get();
+        $orders = Order::where('user_id',Auth::user()->id)->orderBy('created_at','DESC')->get();
         return view('profile',compact(['orders']));
+    }
+    protected function GetSearch(Request $request){
+        if($request->input('search') !== null){
+            $validateFields = $request->validate([
+                'search' => 'required'
+            ]);
+            $search = $request->input('search');
+            $result = DB::table('products')->where('name','ILIKE',"%{$search}%")->get();
+            return view('search',compact(['result']));
+        }
     }
 }

@@ -72,6 +72,7 @@
             </div>
         @endforeach
     </div>
+<x-footer></x-footer>
 </body>
 <script type="text/javascript">
     const range = document.getElementById('range');

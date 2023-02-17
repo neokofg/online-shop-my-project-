@@ -81,23 +81,20 @@ class ProductsController extends Controller
         $userCart = DB::table('users')->where('id','=',Auth::user()->id)->get('cart');
         foreach($userCart as $userCartItem){
             $decodedCart = json_decode($userCartItem->cart,true);
-            $decodedCart = implode('',$decodedCart['ids']);
-            if($decodedCart == 0){
+            if($decodedCart['ids'] == null){
                 $cart = array(
                     'ids' => [$product_id],
                 );
+                $encodedCart = json_encode($cart);
             }else{
-                $decodedCart = intval($decodedCart);
-                $cart = array(
-                    'ids' => [$decodedCart,$product_id]
-                );
+                array_push($decodedCart['ids'],$product_id);
+                $encodedCart = json_encode($decodedCart);
             }
-            $encodedCart = json_encode($cart);
             $data = array(
                 'cart' => $encodedCart
             );
             DB::table('users')->where('id', '=', Auth::user()->id)->update($data);
-            return back();
+             return back();
         }
     }
     protected function deleteFromCart($id){

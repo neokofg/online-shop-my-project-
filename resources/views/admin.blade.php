@@ -35,6 +35,7 @@
         </div><br>
         <button type="submit">Отправить</button>
     </form>
+<x-footer></x-footer>
 </body>
 <script type="text/javascript">
     let select = document.getElementById('select');
