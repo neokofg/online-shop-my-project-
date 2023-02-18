@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en">
 <x-head></x-head>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <style>
     .material-symbols-outlined {
         font-variation-settings:
@@ -10,20 +9,20 @@
             'GRAD' 0,
             'opsz' 48
     }
+    body{
+        opacity: 0;
+        transition: opacity 0.5s;
+    }
 </style>
 
-<body>
+<body onload="document.body.style.opacity='1'">
 <x-navbar></x-navbar>
     @foreach($product as $productItem)
         <div class="container mt-5">
             <h2 class="mb-5">{{$productItem->name}}</h2>
             <div class="row mx-auto">
-                <div class="col">
-                    <div class="card">
-                        <div class="card-body">
-                            <img class="rounded" width="400px" src="/images/{{$productItem->image}}" alt="{{$productItem->name}}">
-                        </div>
-                    </div>
+                <div class="col align-self-start">
+                    <img class="rounded object-fit-contain img-fluid img-thumbnail" style="height:250px;width:100%" src="/images/{{$productItem->image}}" alt="{{$productItem->name}}">
                 </div>
                 <div class="col">
                     <div class="card">
@@ -62,22 +61,26 @@
                                             @if($i == 0)
                                                 <button type="submit" class="btn btn-primary text-nowrap fw-lighter ">Добавить в корзину</button>
                                             @endif
+                                        @else
+                                            <a href="{{route('login')}}"><button type="button" class="btn btn-primary text-nowrap fw-lighter">Добавить в корзину</button></a>
                                         @endif
                                     </form>
-                                    <form class="col" action="{{route('cart.addToFavs')}}" method="GET">
+                                    <form name="favForm" class="col align-self-center" action="{{route('cart.addToFavs')}}" method="GET">
                                         @csrf
-                                        <input type="text" style="display:none" name="id" value="{{$productItem->id}}">
+                                        <input type="hidden" name="id" value="{{$productItem->id}}">
                                         @if(Auth::check())
                                             @php($a = 0)
                                             @foreach($favsIds as $favsId)
                                                 @if($favsId == $productItem->id)
-                                                    <a href="{{route('cart.GetFavs')}}"><button type="button" class="btn btn-secondary text-nowrap fw-lighter">Оно в ваших любимых!</button></a>
+                                                    <a href="{{route('cart.GetFavs')}}"><span class="material-symbols-outlined" style="color:red;cursor:pointer">favorite</span></a>
                                                     @php($a = 1)
                                                 @endif
                                             @endforeach
                                             @if($a == 0)
-                                                <button type="submit" class="btn btn-secondary text-nowrap fw-lighter">Добавить в любимые</button>
+                                                <span onclick="favForm.submit()" class="material-symbols-outlined " style="color:gray;cursor:pointer">favorite</span>
                                             @endif
+                                        @else
+                                            <a href="{{route('login')}}"><span class="material-symbols-outlined " style="color:gray;cursor:pointer">favorite</span></a>
                                         @endif
                                     </form>
                                 </div>
@@ -101,11 +104,16 @@
                 </div>
             </div>
         </div>
-{{--        <h4>{{$midAriphStar}} Звезд!</h4>--}}
     <div class="container mt-5">
         <div class="row mx-auto">
             <div class="col">
-                <h3>Комментарии:</h3>
+                <div class="row">
+                    <h3 class="col-3">Комментарии:</h3>
+                    <div class="col d-flex">
+                        <h4 class="">{{$midAriphStar}}</h4>
+                        <span class="material-symbols-outlined" style="color:gold">star</span>
+                    </div>
+                </div>
                 <div class="card">
                     <div class="card-body">
                         <form action="{{route('newComment')}}" method="POST" enctype="multipart/form-data">
@@ -124,7 +132,11 @@
                             <div class="input-group mb-3">
                                 <input name="image" type="file" class="form-control" id="inputGroupFile02">
                             </div>
-                            <button type="submit" class="btn btn-secondary">Отправить</button>
+                            @if(Auth::Check())
+                                <button type="submit" class="btn btn-secondary">Отправить</button>
+                            @else
+                                <a href="{{route('login')}}"><button type="button" class="btn btn-secondary">Отправить</button></a>
+                            @endif
                         </form>
                     </div>
                 </div>

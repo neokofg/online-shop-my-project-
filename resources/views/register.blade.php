@@ -91,7 +91,7 @@
         -webkit-overflow-scrolling: touch;
     }
 </style>
-<body>
+<body onload="document.body.style.opacity='1'">
 <x-navbar></x-navbar>
 {{--    <form action="{{route('')}}" method="POST">--}}
 {{--        @csrf--}}

@@ -1,9 +1,8 @@
 <!doctype html>
 <html lang="en">
 <x-head></x-head>
-<body class="text-center">
+<body class="text-center" onload="document.body.style.opacity='1'">
 <x-navbar></x-navbar>
-    @foreach($products as $product)
     <h1>Ваши избранные:</h1>
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -22,7 +21,6 @@
             @endforeach
         </div>
     </div>
-    @endforeach
 <x-footer></x-footer>
 </body>
 </html>

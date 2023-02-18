@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <x-head></x-head>
-<body>
+<body onload="document.body.style.opacity='1'">
 <x-navbar></x-navbar>
     Ты в админке!
     <a href="{{route('index')}}"><button>Назад</button></a>

@@ -91,7 +91,7 @@
         -webkit-overflow-scrolling: touch;
     }
 </style>
-<body>
+<body onload="document.body.style.opacity='1'">
 <x-navbar></x-navbar>
 <div class="bodyChanger text-center">
     <main class="form-signin w-100 m-auto">

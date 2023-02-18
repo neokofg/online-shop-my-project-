@@ -22,7 +22,7 @@ class ProductsController extends Controller
         foreach($chars as $charItem){
             $newChars += [$charItem['name'] => 'none'];
         }
-        $newChars = json_encode($newChars);
+        $newChars = json_encode($newChars, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
         $file= $request->file('image');
         $filename= date('YmdHi').$file->hashName();
         $file-> move(public_path('images'), $filename);

@@ -1,11 +1,6 @@
 <!doctype html>
 <html lang="en">
 <x-head></x-head>
-<style>
-    .container {
-        max-width: 960px;
-    }
-</style>
 <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (() => {
@@ -28,10 +23,11 @@
     })()
 
 </script>
-<body>
+<body onload="document.body.style.opacity='1'">
 <x-navbar></x-navbar>
+
 @foreach($product as $productItem)
-<div class="container mt-5">
+<div class="container mt-5" style="max-width:960px">
     <main>
         <div class="row g-5">
             <div class="col-md-5 col-lg-4 order-md-last">

@@ -84,7 +84,7 @@
                 </ul>
                 <form action="{{route('search')}}" method="GET" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                     @csrf
-                    <input type="search" name="search" class="form-control form-control-dark text-bg-dark" placeholder="Поиск" aria-label="Search">
+                    <input type="search" name="search" class="form-control form-control-dark" placeholder="Поиск" aria-label="Search">
                 </form>
                 <div class="text-end">
                     @if(!Request::is('login'))

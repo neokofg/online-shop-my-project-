@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <x-head></x-head>
-<body class="text-center">
+<body class="text-center" onload="document.body.style.opacity='1'">
 <x-navbar></x-navbar>
     <h1>Ваша корзина:</h1>
     <div class="container">

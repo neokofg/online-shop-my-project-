@@ -1,7 +1,13 @@
 <!doctype html>
 <html lang="en">
 <x-head></x-head>
-<body>
+<style>
+    body{
+        opacity: 0;
+        transition: opacity 0.5s;
+    }
+</style>
+<body onload="document.body.style.opacity='1'">
 <x-navbar></x-navbar>
     <div class="text-center mt-5">
         <h2>Продукты категории {{App\Models\Type::typeName($type_id)}}:</h2>

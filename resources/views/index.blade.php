@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <x-head></x-head>
-<body>
+<body onload="document.body.style.opacity='1'">
 <x-navbar></x-navbar>
 <main>
 
