@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     protected function registerNewUser(Request $request){
-        if(Auth::check()  OR Auth::viaRemember()){
-            return redirect(route('index'));
-        }
         $validateFields = $request->validate([
             'name' => 'required',
             'email' => 'required|unique:users',
@@ -32,9 +29,6 @@ class AuthController extends Controller
         ]);
     }
     protected function loginUser(Request $request){
-        if(Auth::check()  OR Auth::viaRemember()){
-            return redirect(route('index'));
-        }
         $formFields = $request->only(['email', 'password']);
         $remember = $request->input('remember');
         if(Auth::attempt($formFields,$remember)){

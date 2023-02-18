@@ -110,7 +110,7 @@
 
             <div class="checkbox mb-3">
                 <label>
-                    <input type="checkbox" value="remember-me"> Запомнить меня
+                    <input type="checkbox" name="remember"> Запомнить меня
                 </label>
             </div>
             <button class="w-100 btn btn-lg btn-primary" type="submit">Войти</button>
