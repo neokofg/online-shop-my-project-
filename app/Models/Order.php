@@ -15,6 +15,9 @@ class Order extends Model
         'total_price',
         'destination'
     ];
-    use HasFactory;
-    use HasUuids;
+    use HasFactory, HasUuids;
+    public function product()
+    {
+        return $this->belongsTo('App\Models\Product', 'product_id');
+    }
 }
