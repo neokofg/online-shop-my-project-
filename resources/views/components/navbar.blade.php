@@ -32,7 +32,7 @@
                     @endif
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
-                            <a class="nav-link px-2 text-white dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link px-2 text-white dropdown-toggle"  style="cursor:pointer" data-bs-toggle="dropdown" aria-expanded="false">
                                 Каталог
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark">
@@ -71,7 +71,7 @@
                     @endif
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
-                            <a class="nav-link px-2 text-white dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link px-2 text-white dropdown-toggle" style="cursor:pointer" data-bs-toggle="dropdown" aria-expanded="false">
                                 Каталог
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark">
