@@ -102,3 +102,30 @@
         </div>
     </div>
 </header>
+@if (\Session::has('success'))
+    <div class="container mt-3">
+        <div class="row mx-auto">
+            <div class="col">
+                <div class="alert alert-success" role="alert">
+                    {{session()->get('success')}}
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+@if($errors->any())
+    <div class="container mt-3">
+        <div class="row mx-auto">
+            <div class="col">
+                <div class="alert alert-danger" role="alert">
+                    Ошибка:
+                    <ul style="margin-left: 20px;">
+                        @foreach($errors->all() as $error)
+                            <li>{{$error}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif

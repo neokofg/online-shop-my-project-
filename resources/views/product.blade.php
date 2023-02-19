@@ -17,6 +17,7 @@
 
 <body onload="document.body.style.opacity='1'">
 <x-navbar></x-navbar>
+
     @foreach($product as $productItem)
         <div class="container mt-5">
             <div class="col d-inline-flex mb-5">

@@ -84,7 +84,7 @@ class ProductsController extends Controller
             "updated_at" => date('Y-m-d H:i:s')
         );
         DB::table('products')->insert($data);
-        return to_route('admin');
+        return to_route('admin')->with('success', 'Успешно!');
     }
 
     //Следующие 4 функции -> Действия с корзиной и фаворитами
@@ -181,18 +181,18 @@ class ProductsController extends Controller
         }
     }
     protected function newComment(Request $request){
-        $comment = Comment::get();
-        foreach($comment as $commentItem){
-            if($commentItem->user_id == Auth::user()->id){
-                return back();
-            }
-        }
         $validateFields = $request->validate([
             'comment' => 'required',
             'image' => 'required',
             'stars' => 'required|min:1|max:5',
             'product_id' => 'required'
         ]);
+        $commentItem = Comment::where('product_id',$request->input('product_id'))->first();
+        if($commentItem){
+            if($commentItem->user_id == Auth::user()->id){
+                return back()->withErrors(['Комментарий' => 'Вы уже опубликовали комментарий к данному продукту!']);
+            }
+        }
         $comment = $request->input('comment');
         $stars = $request->input('stars');
         $product_id = $request->input('product_id');

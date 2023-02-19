@@ -3,38 +3,42 @@
 <x-head></x-head>
 <body onload="document.body.style.opacity='1'">
 <x-navbar></x-navbar>
-    Ты в админке!
-    <a href="{{route('index')}}"><button>Назад</button></a>
-    <form action="{{route('product.newType')}}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <h2>Добавление категории</h2>
-        <input type="text" name="name" placeholder="Название">
-        <input type="file" name="image">
-        <button type="button" onclick="AddChar();">Добавить характеристику</button>
-        <div id="parent">
+    <div class="container">
+        <div class="row mx-auto">
+            <div class="col">
+                <form action="{{route('product.newType')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <h2>Добавление категории</h2>
+                    <input type="text" name="name" placeholder="Название">
+                    <input type="file" name="image">
+                    <button type="button" onclick="AddChar();">Добавить характеристику</button>
+                    <div id="parent">
 
+                    </div>
+                    <button type="submit">Отправить</button>
+                </form>
+                <form action="{{route('product.newProduct')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <h2>Добавление продукта</h2>
+                    <input type="text" name="name" placeholder="Название">
+                    <input type="text" name="description" placeholder="Описание">
+                    <input type="text" name="price" placeholder="Цена"><br>
+                    <input type="text" name="available" placeholder="Количество">
+                    <input type="file" name="image[]" multiple><br>
+                    <select name="type" id="select" onchange="onSelect();">
+                        <option disabled selected value> -- выберите -- </option>
+                        @foreach($types as $type)
+                            <option value="{{ $type->id}}">{{ $type->name}}</option>
+                        @endforeach
+                    </select>
+                    <div id="firstul">
+
+                    </div><br>
+                    <button type="submit">Отправить</button>
+                </form>
+            </div>
         </div>
-        <button type="submit">Отправить</button>
-    </form>
-    <form action="{{route('product.newProduct')}}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <h2>Добавление продукта</h2>
-        <input type="text" name="name" placeholder="Название">
-        <input type="text" name="description" placeholder="Описание">
-        <input type="text" name="price" placeholder="Цена"><br>
-        <input type="text" name="available" placeholder="Количество">
-        <input type="file" name="image[]" multiple><br>
-        <select name="type" id="select" onchange="onSelect();">
-            <option disabled selected value> -- выберите -- </option>
-            @foreach($types as $type)
-                <option value="{{ $type->id}}">{{ $type->name}}</option>
-            @endforeach
-        </select>
-        <div id="firstul">
-
-        </div><br>
-        <button type="submit">Отправить</button>
-    </form>
+    </div>
 <x-footer></x-footer>
 </body>
 <script type="text/javascript">
