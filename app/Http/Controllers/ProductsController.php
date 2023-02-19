@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -16,6 +17,7 @@ class ProductsController extends Controller
             'image' => 'required|mimes:jpeg,png,jpg,gif,svg',
             'chars' => 'required'
         ]);
+        DB::beginTransaction();
         $name = $request->input('name');
         $chars = $request->input('chars');
         $newChars = array();
@@ -34,7 +36,8 @@ class ProductsController extends Controller
             $data = array('type_id' => $getTypeItem->id,'chars'=> $newChars,"created_at" =>  date('Y-m-d H:i:s'), "updated_at" => date('Y-m-d H:i:s'));
             DB::table('chars')->insert($data);
         }
-        return to_route('admin');
+        DB::commit();
+        return to_route('admin')->with('success', 'Успешно!');
     }
     protected function newProduct(Request $request){
         $validateFields = $request->validate([
@@ -46,6 +49,7 @@ class ProductsController extends Controller
             'image' => 'required',
             'image.*' =>'mimes:jpeg,png,jpg,gif,svg'
         ]);
+        DB::beginTransaction();
         $name = $request->input('name');
         $description = $request->input('description');
         $price = $request->input('price');
@@ -71,7 +75,7 @@ class ProductsController extends Controller
             $newChars = json_encode($newChars);
             print_r($newChars);
         }
-        $data = array(
+        $product = Product::create([
             'name' => $name,
             'chars' => $newChars,
             'description' => $description,
@@ -79,11 +83,14 @@ class ProductsController extends Controller
             'sale' => $price,
             'available' => $available,
             'type_id' => $type,
-            'image'=> json_encode($insert),
-            "created_at" =>  date('Y-m-d H:i:s'),
-            "updated_at" => date('Y-m-d H:i:s')
+            'image'=> json_encode($insert)
+        ]);
+        $data2 = array(
+            'name' => $product->name,
+            'product_id' => $product->id
         );
-        DB::table('products')->insert($data);
+        DB::table('index_search')->insert($data2);
+        DB::commit();
         return to_route('admin')->with('success', 'Успешно!');
     }
 

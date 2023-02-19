@@ -64,7 +64,7 @@ class GetController extends Controller
         $userCart = DB::table('users')->where('id', '=', Auth::user()->id)->get('cart');
         foreach($userCart as $cartEncodedItem){
             $cartDecoded = json_decode($cartEncodedItem->cart,true);
-            $products = Product::whereIn('id',$cartDecoded['ids'])->get();
+            $products = Product::whereIn('id',$cartDecoded['ids'])->orderBy('updated_at','DESC')->get();
         }
         return view('cart',compact(['products']));
     }
@@ -72,7 +72,7 @@ class GetController extends Controller
         $userFavs = DB::table('users')->where('id', '=', Auth::user()->id)->get('favorite');
         foreach($userFavs as $favsEncodedItem){
             $favsDecoded = json_decode($favsEncodedItem->favorite,true);
-            $products = Product::whereIn('id',$favsDecoded['ids'])->get();
+            $products = Product::whereIn('id',$favsDecoded['ids'])->orderBy('updated_at','DESC')->get();
         }
         return view('favs',compact(['products']));
     }
@@ -86,7 +86,12 @@ class GetController extends Controller
                 'search' => 'required'
             ]);
             $search = $request->input('search');
-            $result = Product::where('name','ILIKE',"%{$search}%")->get();
+            $searchResult = DB::table('index_search')->where('name','ILIKE',"%{$search}%")->get('product_id');
+            $searchedIds = array();
+            foreach($searchResult as $search){
+                array_push($searchedIds,$search->product_id);
+            }
+            $result = Product::whereIn('id',$searchedIds)->get();
             return view('search',compact(['result']));
         }
     }

@@ -12,38 +12,64 @@ use function MongoDB\BSON\toJSON;
 
 class OrdersController extends Controller
 {
-    protected function pageOrder($id){
-        $product = Product::where('id',$id)->get();
+    protected function pageOrder(Request $request){
+        $product = Product::whereIn('id',$request->input('product'))->get();
         return view('makeOrder',compact(['product']));
     }
-    protected function newOrder(Request $request,$id){
+    protected function newOrder(Request $request){
         $validateFields = $request->validate([
             'total_price' => 'required',
-            'destination' => 'required'
+            'destination' => 'required',
+            'products' => 'required',
+            'card' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'country' => 'required',
+            'city' => 'required',
+            'zip' => 'required'
         ]);
         $total_price = $request->input('total_price');
         $destination = $request->input('destination');
+        $first_name = $request->input('first_name');
+        $last_name = $request->input('last_name');
+        $country = $request->input('country');
+        $city = $request->input('city');
+        $zip = $request->input('zip');
+        $card = $request->input('card');
+        $card = json_encode($card);
+        $products = $request->input('products');
+        $productIds = array();
         $user_id = Auth::user()->id;
-        Order::create([
-            'product_id' => $id,
-            'user_id' => $user_id,
-            'total_price' => $total_price,
-            'destination' => $destination]
-        );
         $decodedCart = json_decode(Auth::user()->cart,true);
         $decodedCart = $decodedCart['ids'];
-        $pos = array_search($id, $decodedCart);
-        if ($pos !== false) {
-            unset($decodedCart[$pos]);
-        }else{
-            return to_route('index');
+        $products = json_decode($products[0]);
+        foreach($products as $productItem){
+            array_push($productIds,$productItem->id);
+        }
+        foreach($products as $productItem){
+            $pos = array_search(intval($productItem->id), $decodedCart);
+            if ($pos !== false) {
+                unset($decodedCart[$pos]);
+            }
         }
         $cart = array(
             'ids' => $decodedCart
         );
         User::where('id', $user_id)->update([
-           'cart'=> json_encode($cart)
+            'cart'=> json_encode($cart)
         ]);
-        return to_route('index');
+        Order::create([
+            'products' => json_encode($productIds),
+            'user_id' => $user_id,
+            'total_price' => $total_price,
+            'destination' => $destination,
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'country' => $country,
+            'city' => $city,
+            'zip' => $zip,
+            'card_info' => $card,
+            ]);
+        return to_route('profile');
     }
 }

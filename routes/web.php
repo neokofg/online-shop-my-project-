@@ -47,6 +47,6 @@ Route::name('cart.')->middleware('isAuth')->group(function(){
     Route::get('/favs',[\App\Http\Controllers\GetController::class, 'GetFavs'])->name('GetFavs');
 });
 Route::name('orders.')->middleware('isAuth')->group(function(){
-    Route::get('/pageOrder/{id}', [\App\Http\Controllers\OrdersController::class, 'pageOrder'])->name('pageOrder');
-    Route::get('/newOrder/{id}', [\App\Http\Controllers\OrdersController::class, 'newOrder'])->name('newOrder');
+    Route::get('/pageOrder', [\App\Http\Controllers\OrdersController::class, 'pageOrder'])->name('pageOrder');
+    Route::post('/newOrder', [\App\Http\Controllers\OrdersController::class, 'newOrder'])->name('newOrder');
 });

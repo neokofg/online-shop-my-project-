@@ -20,7 +20,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="flush-heading{{$order->id}}">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{$order->id}}" aria-expanded="false" aria-controls="flush-collapse{{$order->id}}">
-                                {{$order->product->name}}
+                                {{$order->id}}
                             </button>
                         </h2>
                         <div id="flush-collapse{{$order->id}}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{$order->id}}" data-bs-parent="#accordionFlushExample">
@@ -29,6 +29,12 @@
                                     <p>Номер вашего заказа:</p>
                                     <p class="text-primary">{{$order->id}}</p>
                                 </span>
+                                @foreach($order->products($order->products) as $product)
+                                    <span class="d-flex justify-content-between">
+                                        <p>Продукт:</p>
+                                        <p class="text-primary">{{$product}}</p>
+                                    </span>
+                                @endforeach
                                 <span class="d-flex justify-content-between">
                                     <p>Адрес:</p>
                                     <p class="text-primary">{{$order->destination}}</p>

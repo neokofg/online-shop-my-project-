@@ -15,10 +15,16 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignId('product_id')->references('id')->on('products');
+            $table->json('products');
             $table->foreignId('user_id')->references('id')->on('users');
             $table->string('total_price');
             $table->string('destination');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('country');
+            $table->string('city');
+            $table->string('zip');
+            $table->json('card_info');
             $table->timestamps();
         });
     }

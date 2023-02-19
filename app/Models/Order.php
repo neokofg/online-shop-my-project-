@@ -10,14 +10,27 @@ class Order extends Model
 {
     protected $table = 'orders';
     protected $fillable = [
-        'product_id',
+        'products',
         'user_id',
         'total_price',
-        'destination'
+        'destination',
+        'country',
+        'city',
+        'first_name',
+        'last_name',
+        'zip',
+        'card_info'
     ];
     use HasFactory, HasUuids;
-    public function product()
+    public function products($products)
     {
-        return $this->belongsTo('App\Models\Product', 'product_id');
+        $products = json_decode($products,true);
+        $productsArray = array();
+        foreach($products as $key => $value){
+            $product = Product::where('id',$value)->first();
+            $product = $product->toArray();
+            array_push($productsArray,$product['name']);
+        }
+        return $productsArray;
     }
 }
