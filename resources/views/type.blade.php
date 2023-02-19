@@ -17,7 +17,7 @@
             @foreach($products as $product)
                 <div class="col">
                     <div class="card  mx-auto" style="width: 18rem;">
-                        <img src="/images/{{$product->image}}" class="card-img-top" alt="{{$product->name}}" width="200" height="250">
+                        <img src="/images/{{$product->getImage($product->id)}}" class="card-img-top" alt="{{$product->name}}" width="200" height="250">
                         <div class="card-body">
                             <h5 class="card-title">{{$product->name}}</h5>
                             <p class="card-text">{{Str::limit($product->description,50)}}</p>

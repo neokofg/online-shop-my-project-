@@ -23,7 +23,7 @@
         <input type="text" name="description" placeholder="Описание">
         <input type="text" name="price" placeholder="Цена"><br>
         <input type="text" name="available" placeholder="Количество">
-        <input type="file" name="image"><br>
+        <input type="file" name="image[]" multiple><br>
         <select name="type" id="select" onchange="onSelect();">
             <option disabled selected value> -- выберите -- </option>
             @foreach($types as $type)

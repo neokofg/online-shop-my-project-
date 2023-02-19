@@ -24,7 +24,7 @@ class GetController extends Controller
     }
     protected function GetType($id){
         $type_id = $id;
-        $products = DB::table('products')->where('type_id','=',$type_id)->get();
+        $products = Product::where('type_id',$id)->get();
         return view('type', compact(['products','type_id']));
     }
     protected function GetProduct($id,$product_id){
@@ -47,21 +47,24 @@ class GetController extends Controller
         foreach($product as $productItem){
             $decodedChars = json_decode($productItem->chars, true);
         }
+        $images = Product::where('id',$product_id)->first();
+        $images = $images->image;
+        $images = json_decode($images,true);
         if(Auth::check()){
             $cartDecoded = json_decode(Auth::user()->cart,true);
             $favsDecoded = json_decode(Auth::user()->favorite,true);
             $cartIds = $cartDecoded['ids'];
             $favsIds = $favsDecoded['ids'];
             $i = 0;
-            return view('product',compact(['product','cartIds','i','favsIds','decodedChars','comments','midAriphStar']));
+            return view('product',compact(['product','cartIds','i','favsIds','decodedChars','comments','midAriphStar','images']));
         }
-        return view('product',compact(['product','decodedChars','comments','midAriphStar']));
+        return view('product',compact(['product','decodedChars','comments','midAriphStar','images']));
     }
     protected function GetCart(){
         $userCart = DB::table('users')->where('id', '=', Auth::user()->id)->get('cart');
         foreach($userCart as $cartEncodedItem){
             $cartDecoded = json_decode($cartEncodedItem->cart,true);
-            $products = DB::table('products')->whereIn('id',$cartDecoded['ids'])->get();
+            $products = Product::whereIn('id',$cartDecoded['ids'])->get();
         }
         return view('cart',compact(['products']));
     }
@@ -69,7 +72,7 @@ class GetController extends Controller
         $userFavs = DB::table('users')->where('id', '=', Auth::user()->id)->get('favorite');
         foreach($userFavs as $favsEncodedItem){
             $favsDecoded = json_decode($favsEncodedItem->favorite,true);
-            $products = DB::table('products')->whereIn('id',$favsDecoded['ids'])->get();
+            $products = Product::whereIn('id',$favsDecoded['ids'])->get();
         }
         return view('favs',compact(['products']));
     }
@@ -83,7 +86,7 @@ class GetController extends Controller
                 'search' => 'required'
             ]);
             $search = $request->input('search');
-            $result = DB::table('products')->where('name','ILIKE',"%{$search}%")->get();
+            $result = Product::where('name','ILIKE',"%{$search}%")->get();
             return view('search',compact(['result']));
         }
     }

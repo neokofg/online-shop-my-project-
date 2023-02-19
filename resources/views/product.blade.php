@@ -22,7 +22,38 @@
             <h2 class="mb-5">{{$productItem->name}}</h2>
             <div class="row mx-auto">
                 <div class="col align-self-start">
-                    <img class="rounded object-fit-contain img-fluid img-thumbnail" style="height:250px;width:100%" src="/images/{{$productItem->image}}" alt="{{$productItem->name}}">
+                    <div id="carouselExampleIndicators" class="carousel slide">
+                        <div class="carousel-indicators">
+                            @foreach($images as $key => $value)
+                                @if ($loop->first)
+                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{$key}}" class="active" aria-current="true" aria-label="Slide{{$key}}"></button>
+                                @else
+                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{$key}}" aria-label="Slide{{$key}}"></button>
+                                @endif
+                            @endforeach
+                        </div>
+                        <div class="carousel-inner">
+                            @foreach($images as $key => $value)
+                                @if($loop->first)
+                                    <div class="carousel-item active">
+                                        <img src="/images/{{$value['name']}}" height="400" class="d-block w-100 rounded">
+                                    </div>
+                                @else
+                                    <div class="carousel-item">
+                                        <img src="/images/{{$value['name']}}" height="400" class="d-block w-100 rounded">
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
                 </div>
                 <div class="col">
                     <div class="card">
@@ -43,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col" style="height:250px">
                     <div class="card">
                         <div class="card-body">
                             <h3>{{$productItem->price}} ₽ <span class="badge bg-secondary"><del>{{$productItem->price + 5000}}</del></span></h3>
@@ -87,7 +118,7 @@
 
                         </div>
                     </div>
-                    <div class="card mt-3">
+                    <div class="card mt-5">
                         <div class="card-body">
                             Осталось {{$productItem->available}} шт.
                         </div>

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('type_id')->references('id')->on('types');
             $table->string('name');
-            $table->string('image');
+            $table->json('image');
             $table->string('description');
             $table->string('price');
             $table->string('sale')->nullable();

@@ -43,16 +43,23 @@ class ProductsController extends Controller
             'price' => 'required',
             'available' => 'required',
             'type' => 'required',
-            'image' => 'required|mimes:jpeg,png,jpg,gif,svg'
+            'image' => 'required',
+            'image.*' =>'mimes:jpeg,png,jpg,gif,svg'
         ]);
         $name = $request->input('name');
         $description = $request->input('description');
         $price = $request->input('price');
         $available = $request->input('available');
         $type = $request->input('type');
-        $file = $request->file('image');
-        $filename= date('YmdHi').$file->hashName();
-        $file-> move(public_path('images'), $filename);
+//        $file = $request->file('image');
+//        $filename= date('YmdHi').$file->hashName();
+//        $file-> move(public_path('images'), $filename);
+        foreach($request->file('image') as $key => $image)
+        {
+            $fileName= date('YmdHi').$image->hashName();
+            $image-> move(public_path('images'), $fileName);
+            $insert[$key]['name'] = $fileName;
+        }
         $chars = DB::table('chars')->where('type_id','=', $type)->get();
         foreach($chars as $char){
             $decodedChars = json_decode($char->chars,true);
@@ -64,8 +71,18 @@ class ProductsController extends Controller
             $newChars = json_encode($newChars);
             print_r($newChars);
         }
-        $data = array('name' => $name,'chars' => $newChars,'description' => $description,'price' => $price,'sale' => $price,'available' => $available,'type_id' => $type,'image'=> $filename, "created_at" =>  date('Y-m-d H:i:s'),
-            "updated_at" => date('Y-m-d H:i:s'));
+        $data = array(
+            'name' => $name,
+            'chars' => $newChars,
+            'description' => $description,
+            'price' => $price,
+            'sale' => $price,
+            'available' => $available,
+            'type_id' => $type,
+            'image'=> json_encode($insert),
+            "created_at" =>  date('Y-m-d H:i:s'),
+            "updated_at" => date('Y-m-d H:i:s')
+        );
         DB::table('products')->insert($data);
         return to_route('admin');
     }

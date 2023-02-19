@@ -22,16 +22,18 @@
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 @foreach(App\Models\Product::take(9)->get() as $product)
-                <div class="col">
-                    <div class="card  mx-auto" style="width: 18rem;">
-                        <img src="/images/{{$product->image}}" class="card-img-top" alt="{{$product->name}}" width="200" height="250">
-                        <div class="card-body">
-                            <h5 class="card-title">{{$product->name}}</h5>
-                            <p class="card-text">{{Str::limit($product->description,50)}}</p>
-                            <a href="{{route('productPage',['id' => $product->type_id, 'product_id' => $product->id])}}" class="btn btn-primary">Открыть</a>
-                        </div>
+                    <div class="col a-link-custom">
+                        <a class="a-link-custom text-dark" href="{{route('productPage',['id' => $product->type_id, 'product_id' => $product->id])}}">
+                            <div class="card mx-auto" style="width: 18rem;">
+                                <img src="/images/{{$product->getImage($product->id)}}" class="card-img-top" alt="{{$product->name}}" width="200" height="250">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{$product->name}}</h5>
+                                    <p class="card-text">{{Str::limit($product->description,50)}}</p>
+                                    <a href="{{route('productPage',['id' => $product->type_id, 'product_id' => $product->id])}}" class="btn btn-primary w-100 mt-2">Открыть</a>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>
