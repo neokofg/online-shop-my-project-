@@ -19,7 +19,16 @@
 <x-navbar></x-navbar>
     @foreach($product as $productItem)
         <div class="container mt-5">
-            <h2 class="mb-5">{{$productItem->name}}</h2>
+            <div class="col d-inline-flex mb-5">
+                <h2 style="margin:0">{{$productItem->name}}</h2>
+                @for($a = 0;$a < $midAriphStar;$a++)
+                    @if($a == 0)
+                        <span class="material-symbols-outlined align-self-center ms-4" style="color:gold">star</span>
+                    @else
+                        <span class="material-symbols-outlined align-self-center" style="color:gold">star</span>
+                    @endif
+                @endfor
+            </div>
             <div class="row mx-auto">
                 <div class="col align-self-start">
                     <div id="carouselExampleIndicators" class="carousel slide">
@@ -140,10 +149,6 @@
             <div class="col">
                 <div class="row">
                     <h3 class="col-3">Комментарии:</h3>
-                    <div class="col d-flex">
-                        <h4 class="">{{$midAriphStar}}</h4>
-                        <span class="material-symbols-outlined" style="color:gold">star</span>
-                    </div>
                 </div>
                 <div class="card">
                     <div class="card-body">
@@ -186,8 +191,9 @@
                                     <div class="d-flex justify-content-between">
                                         <h3 class="text-dark">{{$comment->user->name}}:</h3>
                                         <div class="d-inline-flex justify-content-start">
-                                            <h3 class="text-dark">{{$comment->stars}}</h3>
-                                            <span class="material-symbols-outlined" style="color:gold">star</span>
+                                            @for($i = 0;$i < $comment->stars;$i++)
+                                                <span class="material-symbols-outlined" style="color:gold">star</span>
+                                            @endfor
                                         </div>
                                     </div>
                                     <p class="text-dark mt-3">{{$comment->comment}}</p>
