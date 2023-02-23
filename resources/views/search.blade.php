@@ -13,7 +13,7 @@
             @foreach($result as $product)
                 <div class="col">
                     <div class="card mx-auto" style="width: 18rem;">
-                        <img src="/images/{{$product->getImage($product->id)}}" class="card-img-top" alt="{{$product->name}}" width="200" height="250">
+                        <img src="/images/{{$product->getImage($product->image)}}" class="card-img-top" alt="{{$product->name}}" width="200" height="250">
                         <div class="card-body">
                             <a class="text-decoration-none" href="{{route('productPage',['id' => $product->type_id, 'product_id' => $product->id])}}"><h5 class="card-title">{{$product->name}}</h5></a>
                             <p class="card-text">{{Str::limit($product->description,50)}}</p>

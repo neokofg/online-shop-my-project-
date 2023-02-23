@@ -20,23 +20,15 @@ class DatabaseSeeder extends Seeder
              'role' => '1',
              'password' => '$2y$10$5sXScqKhyjdwuGvy/i1IaeZxD7jUA6sqXpTCIKVLFpzlng9K0bmZ.',
          ]);
-        /*\App\Models\Type::factory()->create([
-            'name' => 'Процессоры',
-            'image' => '202302151146LTPJ9n7GZpsuBF7OOloGi7TzUEltjqRKaCfWbvxh.jpg',
+        \App\Models\Type::factory()->count(2)->create();
+        \App\Models\Char::factory()->create([
+            'type_id' => 1,
+            'chars' => '{"asd":"zxc","asd1":"ded","asd2":"asd"}',
         ]);
         \App\Models\Char::factory()->create([
-            'type_id' => '1',
-            'chars' => '{"asd":"none","asd1":"none"}',
+            'type_id' => 2,
+            'chars' => '{"asd":"zxc","asd1":"ded","asd2":"asd"}',
         ]);
-        \App\Models\Product::factory()->create([
-            'type_id' => '1',
-            'name' => 'Intel core i9-9900k',
-            'image' => '202302151146x3z4mXxUTYdVvbXVJwUzSdnzmgwYBhh5ba4cW43D.jpg',
-            'description' => 'Творческий онлайн-конкурс #БУКТОК среди школьников 7-10 классов с. Бердигестях продлен до 15 ноября.',
-            'price' => '56000',
-            'sale' => '56000',
-            'available' => '100',
-            'chars' => '{"asd":"23","asd1":"45"}',
-        ]);*/
+        \App\Models\Product::factory()->count(10000)->create();
     }
 }

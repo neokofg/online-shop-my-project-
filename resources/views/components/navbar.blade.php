@@ -75,7 +75,7 @@
                                 Каталог
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark">
-                                @foreach(App\Models\Type::get() as $type)
+                                @foreach(App\Models\Type::all() as $type)
                                     <li><a class="dropdown-item" href="{{route('typePage',$type->id)}}">{{$type->name}}</a></li>
                                 @endforeach
                             </ul>

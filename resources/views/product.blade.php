@@ -17,11 +17,9 @@
 
 <body onload="document.body.style.opacity='1'">
 <x-navbar></x-navbar>
-
-    @foreach($product as $productItem)
         <div class="container mt-5">
             <div class="col d-inline-flex mb-5">
-                <h2 style="margin:0">{{$productItem->name}}</h2>
+                <h2 style="margin:0">{{$product->name}}</h2>
                 @for($a = 0;$a < $midAriphStar;$a++)
                     @if($a == 0)
                         <span class="material-symbols-outlined align-self-center ms-4" style="color:gold">star</span>
@@ -87,14 +85,14 @@
                 <div class="col" style="height:250px">
                     <div class="card">
                         <div class="card-body">
-                            <h3>{{$productItem->price}} ₽ <span class="badge bg-secondary"><del>{{$productItem->price + 5000}}</del></span></h3>
+                            <h3>{{$product->price}} ₽ <span class="badge bg-secondary"><del>{{$product->price + 5000}}</del></span></h3>
                                 <div class="row">
                                     <form class="col" action="{{route('cart.addToCart')}}" method="GET">
                                         @csrf
-                                        <input type="text" style="display:none" name="id" value="{{$productItem->id}}">
+                                        <input type="text" style="display:none" name="id" value="{{$product->id}}">
                                         @if(Auth::check())
                                             @foreach($cartIds as $cartId)
-                                                @if($cartId == $productItem->id)
+                                                @if($cartId == $product->id)
                                                     <a href="{{route('cart.GetCart')}}"><button type="button" class="btn btn-primary text-nowrap fw-lighter">Оно в вашей корзине!</button></a>
                                                     @php($i = 1)
                                                 @endif
@@ -108,11 +106,11 @@
                                     </form>
                                     <form name="favForm" class="col align-self-center" action="{{route('cart.addToFavs')}}" method="GET">
                                         @csrf
-                                        <input type="hidden" name="id" value="{{$productItem->id}}">
+                                        <input type="hidden" name="id" value="{{$product->id}}">
                                         @if(Auth::check())
                                             @php($a = 0)
                                             @foreach($favsIds as $favsId)
-                                                @if($favsId == $productItem->id)
+                                                @if($favsId == $product->id)
                                                     <a href="{{route('cart.GetFavs')}}"><span class="material-symbols-outlined" style="color:red;cursor:pointer">favorite</span></a>
                                                     @php($a = 1)
                                                 @endif
@@ -130,7 +128,7 @@
                     </div>
                     <div class="card mt-5">
                         <div class="card-body">
-                            Осталось {{$productItem->available}} шт.
+                            Осталось {{$product->available}} шт.
                         </div>
                     </div>
                 </div>
@@ -139,7 +137,7 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                            {{$productItem->description}}
+                            {{$product->description}}
                         </div>
                     </div>
                 </div>
@@ -155,7 +153,7 @@
                     <div class="card-body">
                         <form action="{{route('newComment')}}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            <input type="hidden" value="{{$productItem->id}}" name="product_id">
+                            <input type="hidden" value="{{$product->id}}" name="product_id">
                             <div class="input-group">
                                 <textarea name="comment" placeholder="Комментарий" rows="5" class="form-control" aria-label="With textarea"></textarea>
                             </div>
@@ -206,7 +204,6 @@
         </div>
         @endforeach
     </div>
-    @endforeach
 <x-footer></x-footer>
 </body>
 <script type="text/javascript">

@@ -85,11 +85,6 @@ class ProductsController extends Controller
             'type_id' => $type,
             'image'=> json_encode($insert)
         ]);
-        $data2 = array(
-            'name' => $product->name,
-            'product_id' => $product->id
-        );
-        DB::table('index_search')->insert($data2);
         DB::commit();
         return to_route('admin')->with('success', 'Успешно!');
     }

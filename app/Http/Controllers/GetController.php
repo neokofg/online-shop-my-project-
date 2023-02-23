@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Type;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,8 +15,8 @@ use Illuminate\Support\Facades\Auth;
 class GetController extends Controller
 {
     protected function GetIndex(Request $request){
-        $types = DB::table('types')->get();
-        return view('index', compact(['types']));
+        $products = Product::take(9)->get();
+        return view('index', compact(['products']));
     }
     protected function GetAdmin(){
         $types = DB::table('types')->get();
@@ -24,7 +25,7 @@ class GetController extends Controller
     }
     protected function GetType($id){
         $type_id = $id;
-        $products = Product::where('type_id',$id)->get();
+        $products = Product::where('type_id',$id)->paginate(9);
         return view('type', compact(['products','type_id']));
     }
     protected function GetProduct($id,$product_id){
@@ -43,12 +44,9 @@ class GetController extends Controller
             $midAriphStar = $midAriphStar/$a;
         }
         //product
-        $product = Product::where('id', $product_id)->get();
-        foreach($product as $productItem){
-            $decodedChars = json_decode($productItem->chars, true);
-        }
-        $images = Product::where('id',$product_id)->first();
-        $images = $images->image;
+        $product = Product::where('id', $product_id)->first();
+        $decodedChars = json_decode($product->chars, true);
+        $images = $product->image;
         $images = json_decode($images,true);
         if(Auth::check()){
             $cartDecoded = json_decode(Auth::user()->cart,true);
@@ -78,7 +76,8 @@ class GetController extends Controller
     }
     protected function GetProfile(){
         $orders = Order::where('user_id',Auth::user()->id)->orderBy('created_at','DESC')->get();
-        return view('profile',compact(['orders']));
+        $productList = Product::select(array('id', 'name'))->get();
+        return view('profile',compact(['orders','productList']));
     }
     protected function GetSearch(Request $request){
         if($request->input('search') !== null){
@@ -86,12 +85,7 @@ class GetController extends Controller
                 'search' => 'required'
             ]);
             $search = $request->input('search');
-            $searchResult = DB::table('index_search')->where('name','ILIKE',"%{$search}%")->get('product_id');
-            $searchedIds = array();
-            foreach($searchResult as $search){
-                array_push($searchedIds,$search->product_id);
-            }
-            $result = Product::whereIn('id',$searchedIds)->get();
+            $result = Product::where('name','ILIKE',"%{$search}%")->get();
             return view('search',compact(['result']));
         }
     }

@@ -22,14 +22,19 @@ class Order extends Model
         'card_info'
     ];
     use HasFactory, HasUuids;
-    public function products($products)
+//    public function products()
+//    {
+////        $products = json_decode($products,true);
+//        return $this->belongsToMany(Product::class, 'products');
+//    }
+    public function products($products,$productList)
     {
         $products = json_decode($products,true);
         $productsArray = array();
-        foreach($products as $key => $value){
-            $product = Product::where('id',$value)->first();
-            $product = $product->toArray();
-            array_push($productsArray,$product['name']);
+        $product = json_decode(json_encode($productList), true);
+        for($i=0; $i<count($products); $i++) {
+            $key = array_search($products[$i], array_column($product, 'id'));
+            array_push($productsArray,$product[$key]['name']);
         }
         return $productsArray;
     }

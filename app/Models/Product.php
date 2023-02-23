@@ -18,9 +18,8 @@ class Product extends Model
         'available',
         'chars'
     ];
-    public function getImage($id){
-        $product = Product::where('id',$id)->first();
-        $decoded = json_decode($product->image,true);
+    public function getImage($image){
+        $decoded = json_decode($image,true);
         return $decoded[0]['name'];
     }
 }

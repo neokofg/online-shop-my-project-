@@ -29,7 +29,7 @@
                                     <p>Номер вашего заказа:</p>
                                     <p class="text-primary">{{$order->id}}</p>
                                 </span>
-                                @foreach($order->products($order->products) as $product)
+                                @foreach($order->products($order->products,$productList) as $product)
                                     <span class="d-flex justify-content-between">
                                         <p>Продукт:</p>
                                         <p class="text-primary">{{$product}}</p>
