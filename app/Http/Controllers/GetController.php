@@ -28,9 +28,7 @@ class GetController extends Controller
     }
     protected function GetType($id){
         $type_id = $id;
-        $products = Cache::remember('Type', 15, function () use($id){
-            return Product::where('type_id',$id)->paginate(9);
-        });
+        $products = Product::where('type_id',$id)->paginate(9);
         return view('type', compact(['products','type_id']));
     }
     protected function GetProduct($id,$product_id){
@@ -80,14 +78,10 @@ class GetController extends Controller
         return view('favs',compact(['products']));
     }
     protected function GetProfile(){
-        $orders = Cache::remember('Orders',15,function(){
-            return Order::where('user_id',Auth::user()->id)->orderBy('created_at','DESC')->get();
-        });
+        $orders = Order::where('user_id',Auth::user()->id)->orderBy('created_at','DESC')->get();
         $ordersArray = $orders->toArray();
         $productIds = json_decode($ordersArray[0]['products'], true);
-        $productList = Cache::remember('ProductsProfile', 15,function() use($productIds){
-            return Product::whereIn('id', $productIds)->select(array('id', 'name'))->get();
-        });
+        $productList = Product::whereIn('id', $productIds)->select(array('id', 'name'))->get();
         return view('profile',compact(['orders','productList']));
     }
     protected function GetSearch(Request $request){

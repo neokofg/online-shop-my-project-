@@ -15,5 +15,4 @@
     let parent = document.getElementById('liveware-input')
    parent.style.display = "none"
 </script>
-{{--<input wire:model="search" type="search" name="search"  id="search" class="form-control form-control-dark" placeholder="Поиск" aria-label="Search">--}}
 
