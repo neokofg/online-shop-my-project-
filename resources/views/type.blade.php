@@ -15,16 +15,7 @@
     <div class="container mt-5">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             @foreach($products as $product)
-                <div class="col">
-                    <div class="card  mx-auto" style="width: 18rem;">
-                        <img src="/images/{{$product->getImage($product->image)}}" class="card-img-top" alt="{{$product->name}}" width="200" height="250">
-                        <div class="card-body">
-                            <h5 class="card-title">{{$product->name}}</h5>
-                            <p class="card-text">{{Str::limit($product->description,50)}}</p>
-                            <a href="{{route('productPage',['id' => $type_id, 'product_id' => $product->id])}}" class="btn btn-primary">Открыть</a>
-                        </div>
-                    </div>
-                </div>
+                <x-card :product="$product"/>
             @endforeach
         </div>
         <div class="mt-5">
