@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Type;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,9 @@ use Illuminate\Support\Facades\Auth;
 class GetController extends Controller
 {
     protected function GetIndex(Request $request){
-        $products = Product::take(9)->get();
+        $products = Cache::remember('index',15,function(){
+            return Product::take(9)->get();
+        });
         return view('index', compact(['products']));
     }
     protected function GetAdmin(){
@@ -76,7 +79,9 @@ class GetController extends Controller
     }
     protected function GetProfile(){
         $orders = Order::where('user_id',Auth::user()->id)->orderBy('created_at','DESC')->get();
-        $productList = Product::select(array('id', 'name'))->get();
+        $ordersArray = $orders->toArray();
+        $productIds = json_decode($ordersArray[0]['products'], true);
+        $productList = Product::whereIn('id', $productIds)->select(array('id', 'name'))->get();
         return view('profile',compact(['orders','productList']));
     }
     protected function GetSearch(Request $request){

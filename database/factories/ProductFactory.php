@@ -20,7 +20,7 @@ class ProductFactory extends Factory
         return [
             'type_id' => rand(1,2),
             'name' => fake()->name(),
-            'image' => '[{"name":"202302231538afBkQPgng6H5GqKpAmYSFDmPYxof3FGPQV1RCIE7.jpg"},{"name":"202302231538kMa7AT3f9jxLwdKGoAcebegH1Ovl6c8vW2m0qWZh.jpg"},{"name":"202302231538RWTdUIxXD1VX4ggbw8FAOGnHMAnQZzhIoI35LM2Q.jpg"}]',
+            'image' => '[{"name":"202302271057Ni51kuLraWnsmm0ij0NitP232cSERyxcRrw1TkHz.jpg"},{"name":"202302271057U9G8a5Ac1WRwyOKIgiFO7DkZN4P8Y8CvWwPMU4DO.jpg"}]',
             'description' => fake()->paragraph(),
             'price' => $price,
             'sale' => $price,
