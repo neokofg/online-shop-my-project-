@@ -29,6 +29,6 @@ class DatabaseSeeder extends Seeder
             'type_id' => 2,
             'chars' => '{"asd":"zxc","asd1":"ded","asd2":"asd"}',
         ]);
-        \App\Models\Product::factory()->count(10000)->create();
+        \App\Models\Product::factory()->count(100000)->create();
     }
 }

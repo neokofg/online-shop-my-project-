@@ -78,10 +78,15 @@ class GetController extends Controller
         return view('favs',compact(['products']));
     }
     protected function GetProfile(){
-        $orders = Order::where('user_id',Auth::user()->id)->orderBy('created_at','DESC')->get();
-        $ordersArray = $orders->toArray();
-        $productIds = json_decode($ordersArray[0]['products'], true);
-        $productList = Product::whereIn('id', $productIds)->select(array('id', 'name'))->get();
+        $orders = Order::where('user_id', Auth::user()->id)->first();
+        if($orders == null){
+            $productList = null;
+        }else{
+            $orders = Order::where('user_id',Auth::user()->id)->orderBy('created_at','DESC')->get();
+            $ordersArray = $orders->toArray();
+            $productIds = json_decode($ordersArray[0]['products'], true);
+            $productList = Product::whereIn('id', $productIds)->select(array('id', 'name'))->get();
+        }
         return view('profile',compact(['orders','productList']));
     }
     protected function GetSearch(Request $request){
