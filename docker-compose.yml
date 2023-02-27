@@ -1,6 +1,6 @@
 version: '3'
 services:
-    laravel.test:
+    online.shop:
         build:
             context: ./vendor/laravel/sail/runtimes/8.2
             dockerfile: Dockerfile
@@ -24,6 +24,7 @@ services:
         depends_on:
             - pgsql
             - redis
+            - meilisearch
     pgsql:
         image: 'postgres:15'
         ports:
@@ -58,7 +59,27 @@ services:
         networks:
             - sail
         healthcheck:
-            test: [ "CMD", "redis-cli", "ping" ]
+            test:
+                - CMD
+                - redis-cli
+                - ping
+    meilisearch:
+        image: 'getmeili/meilisearch:latest'
+        ports:
+            - '${FORWARD_MEILISEARCH_PORT:-7700}:7700'
+        volumes:
+            - 'sail-meilisearch:/meili_data'
+        networks:
+            - sail
+        healthcheck:
+            test:
+                - CMD
+                - wget
+                - '--no-verbose'
+                - '--spider'
+                - 'http://localhost:7700/health'
+            retries: 3
+            timeout: 5s
 networks:
     sail:
         driver: bridge
@@ -66,4 +87,6 @@ volumes:
     sailredis:
         driver: local
     sail-pgsql:
+        driver: local
+    sail-meilisearch:
         driver: local

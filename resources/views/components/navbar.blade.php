@@ -45,7 +45,9 @@
                 </ul>
                 <form action="{{route('search')}}" method="GET" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                     @csrf
-                    <input type="search" name="search" class="form-control form-control-dark" placeholder="Поиск" aria-label="Search">
+                    <div id="liveware-input">
+                        <input wire:model="search" type="search" name="search"  id="search" class="form-control form-control-dark" placeholder="Поиск" aria-label="Search">
+                    </div>
                 </form>
                 <div class="dropdown text-end">
                     <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -84,7 +86,7 @@
                 </ul>
                 <form action="{{route('search')}}" method="GET" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                     @csrf
-                    <input type="search" name="search" class="form-control form-control-dark" placeholder="Поиск" aria-label="Search">
+                    <input type="search" id="search" name="search" class="form-control form-control-dark" placeholder="Поиск" aria-label="Search">
                 </form>
                 <div class="text-end">
                     @if(!Request::is('login'))

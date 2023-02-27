@@ -49,9 +49,7 @@ class GetController extends Controller
             $midAriphStar = $midAriphStar/$a;
         }
         //product
-        $product = Cache::remember('Product',60*60*24,function() use($product_id){
-            return Product::where('id', $product_id)->first();
-        });
+        $product = Product::where('id', $product_id)->first();
         $decodedChars = json_decode($product->chars, true);
         $images = $product->image;
         $images = json_decode($images,true);
@@ -93,13 +91,7 @@ class GetController extends Controller
         return view('profile',compact(['orders','productList']));
     }
     protected function GetSearch(Request $request){
-        if($request->input('search') !== null){
-            $validateFields = $request->validate([
-                'search' => 'required'
-            ]);
-            $search = $request->input('search');
-            $result = Product::where('name','ILIKE',"%{$search}%")->get();
-            return view('search',compact(['result']));
-        }
+        $find = $request->input('search');
+        return view('search',compact(['find']));
     }
 }
